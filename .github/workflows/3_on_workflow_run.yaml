@@ -1,5 +1,5 @@
 name: 3 on workflow run
-run-name: 3 on workflow run ${{ github.event.workflow_run.head_branch}}
+run-name: ${{ github.event.workflow_run.head_branch}} 3 on workflow run 
 
 on:
   workflow_run:
