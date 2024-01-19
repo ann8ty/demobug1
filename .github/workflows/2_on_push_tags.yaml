@@ -1,5 +1,4 @@
-name: sandbox example
-run-name: sandbox ${{ github.ref_name }}
+name: 2 on push tags
 
 on:
   push:
@@ -16,18 +15,11 @@ jobs:
 
     steps:
 
-      - name: echo stuff
-        run: |
-          echo ${{ github.event.sender.login }}
-
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with: 
           fetch-depth: 0
 
-      - name: Get requirements changed files
-        uses: tj-actions/changed-files@v41
+      - uses: tj-actions/changed-files@v41
         id: changed-requirements-file
         with:
           files: |
