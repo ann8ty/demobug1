@@ -1,0 +1,47 @@
+name: test workflow run changed files
+run-name: test ${{ github.event.workflow_run.head_branch }}
+
+on:
+  workflow_run:
+    workflows: [sandbox example]
+    types:
+      - completed
+    
+jobs:
+
+  example_triggered:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: echo stuff
+        run: |
+          echo ${{ github.event.workflow_run.head_branch }}
+          echo ${{ github.event.workflow_run.head_sha }}
+          echo ${{ github.event.sender.login }}
+          echo ${{ github.event.workflow_run.actor.login }}
+          echo ${{ github.event.workflow_run.triggering_actor.login }}
+          echo ${{ github.event.workflow_run.referenced_workflows.ref }}
+
+
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_branch}}
+
+      - name: Get requirements changed files
+        uses: tj-actions/changed-files@v41
+        id: changed-requirements-file
+        with:
+          base_sha: ${{ github.event.workflow_run.head_sha }}
+          files: |
+            requirements.txt
+
+      - name: Has changed requirements
+        if: ${{ steps.changed-requirements-file.outputs.any_changed == 'true' }}
+        run: |
+          for file in ${{ steps.changed-requirements-file.outputs.all_changed_files }}; do
+            echo "$file"
+          done
