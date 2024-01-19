@@ -7,6 +7,9 @@ on:
     types:
       - completed
     
+env:
+  ACTIONS_RUNNER_DEBUG: true  
+
 jobs:
 
   example_triggered:
