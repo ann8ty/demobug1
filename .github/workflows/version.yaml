@@ -1,0 +1,24 @@
+name: version tag
+
+concurrency: version
+
+on:
+  workflow_call:
+  pull_request:
+    branches: 
+      - main
+    types:
+      - closed
+
+jobs:
+
+  version:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.64.0 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
