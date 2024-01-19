@@ -7,4 +7,5 @@
 1. create branch, pr, merge
 1. actions, 1_version.yaml runs and creates a tag (also shows requirements.txt change)
 1. actions, 2_on_push_tags.yaml runs (also shows requirements.txt change)
+1. actions, 3_on_workflow_run.yaml runs (does not see requirements.txt change)
 
