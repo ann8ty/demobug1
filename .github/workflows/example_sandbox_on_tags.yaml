@@ -6,6 +6,9 @@ on:
     tags:
       - 'v*'
 
+env:
+  ACTIONS_RUNNER_DEBUG: true  
+            
 jobs:
 
   example_tags:
