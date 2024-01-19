@@ -5,4 +5,4 @@
 1. change dags/example.py
 1. change requirements.txt
 1. create branch, pr, merge
-1. version.yaml runs
+1. actions, version.yaml runs and creates a tag
