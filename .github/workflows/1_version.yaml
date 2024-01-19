@@ -23,11 +23,28 @@ jobs:
         with:
           fetch-depth: '0'
 
+      # this action is not triggering on push tags...
       - name: Bump version and push tag
+        id: tag
         uses: anothrNick/github-tag-action@1.64.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
+
+      - name: release notes
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag.outputs.new_tag }}
+          token: ${{ secrets.GITHUB_TOKEN }} 
+          name: ${{ steps.tag.outputs.new_tag }}
+          generateReleaseNotes: true
+
+      - uses: dev-drprasad/delete-older-releases@v0.2.1
+        with:
+          keep_latest: 5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+  
 
   changed_files_check:
     runs-on: ubuntu-latest

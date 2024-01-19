@@ -1,8 +1,9 @@
 name: 3 on workflow run
+run-name: 3 on workflow run ${{ github.event.workflow_run.head_branch}}
 
 on:
   workflow_run:
-    workflows: [2 on push tags, 1 version]
+    workflows: [2 on push tags]
     types:
       - completed
     
@@ -19,6 +20,7 @@ jobs:
       - uses: actions/checkout@v4
         with: 
           fetch-depth: 0
+          fetch-tags: true
           ref: ${{ github.event.workflow_run.head_branch}}
 
       - uses: tj-actions/changed-files@v41
