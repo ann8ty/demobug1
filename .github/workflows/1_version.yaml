@@ -28,3 +28,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
+
+  changed_files_check:
+    runs-on: ubuntu-latest
+    needs: version
+    steps:
+
+      - uses: actions/checkout@v4
+        with: 
+          fetch-depth: '0'
+
+      - uses: tj-actions/changed-files@v41
+        id: changed-requirements-file
+        with:
+          files: |
+            requirements.txt
+
+      - name: Has changed requirements
+        if: ${{ steps.changed-requirements-file.outputs.any_changed == 'true' }}
+        run: |
+          for file in ${{ steps.changed-requirements-file.outputs.all_changed_files }}; do
+            echo "$file"
+          done
+        
